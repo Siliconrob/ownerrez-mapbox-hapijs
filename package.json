@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "@hapi/hapi": "^21.3.0",
+    "@hapi/hoek": "^11.0.2",
     "@hapi/inert": "^7.1.0",
+    "@hapi/shot": "^6.0.1",
     "superagent": "^8.0.9"
   },
   "engines": {

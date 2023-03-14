@@ -22,8 +22,12 @@ const init = async () => {
   
     server.route({
         method: 'GET',
-        path: '/mapkey',
-        handler: (request, h) => {
+        path: '/data',
+        handler: async (request, h) => {
+          
+            const response = await fetch("www.google.com");
+            const text = await response.text();
+          
             return process.env.mapkey;
         }
     });

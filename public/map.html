@@ -36,7 +36,7 @@
     <div id="map"></div>
     <script>            
       (async () => {
-        let response = await fetch(`${window.location.href}/mapkey`);
+        let response = await fetch(`${window.location.href}/data`);
         if (!response.ok) {
           return;
         }

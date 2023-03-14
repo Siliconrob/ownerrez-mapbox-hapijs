@@ -1,16 +1,16 @@
 {
-  "name": "Map + hapijs",
+  "name": "Maps built with hapijs",
   "version": "0.1.0",
   "description": "Node app built with hapijs",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "dependencies": {
-    "@hapi/hapi": "^21.3.0"
+    "@hapi/hapi": "^20.3.0"
   },
   "engines": {
-    "node": "18.x"
+    "node": "16.x"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/glitch-hello-node"

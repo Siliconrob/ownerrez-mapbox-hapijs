@@ -2,6 +2,7 @@
 
 const Hapi = require('@hapi/hapi');
 const Path = require('path');
+const superagent = require('superagent');
 
 const init = async () => {
 
@@ -25,8 +26,9 @@ const init = async () => {
         path: '/data',
         handler: async (request, h) => {
           
-            const response = await fetch("www.google.com");
-            const text = await response.text();
+            const response = await superagent.get("www.google.com");
+            const text = await response.body;
+            console.log(text)
           
             return process.env.mapkey;
         }

@@ -20,6 +20,14 @@ const init = async () => {
         }
     });
   
+    server.route({
+        method: 'GET',
+        path: '/mapkey',
+        handler: (request, h) => {
+            return process.env.mapkey;
+        }
+    });
+  
 
     await server.start();
     console.log('Server running on %s', server.info.uri);

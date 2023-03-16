@@ -25,22 +25,26 @@ const init = async () => {
     path: "/data",
     handler: async (request, h) => {
       const url = "https://secure.ownerreservations.com/api/properties/lookup";
-      const response = await superagent.get("google.com")
-        .set('User-Agent', process.env.owner_rez_user_agent);
+      const response = await superagent
+        .get(url)
+        .set("User-Agent", process.env.owner_rez_user_agent)
+        .auth(process.env.owner_rez_username, process.env.owner_rez_token, {
+          type: "auto",
+        });
       const text = await response.body;
       console.log(text);
 
       const result = {
         mapkey: process.env.mapkey,
-        id: 0
+        id: 0,
       };
-      
+
       return result;
     },
   });
 
   await server.start();
-  console.log("Server running on %s", server.info.uri);
+  console.log("I exist to serve %s", server.info.uri);
 };
 
 process.on("unhandledRejection", (err) => {

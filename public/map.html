@@ -56,8 +56,8 @@
           container: "map", // container ID
           // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
           style: "mapbox://styles/mapbox/streets-v12", // style URL
-          center: [-96, 37.8],
-          zoom: 8, // starting zoom
+          center: [0, 0],
+          zoom: 0, // starting zoom
         });
 
         const markersAdded = [];
@@ -73,7 +73,7 @@
           for (const [index, coordinate] of markersAdded.entries()) {
             setTimeout(() => {
               const position = coordinate.getLngLat();
-              map.flyTo({ center: [position.lng, position.lat] });
+              map.flyTo({ center: [position.lng, position.lat], zoom: 18 });
             }, 2000 * index);
           }
         });

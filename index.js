@@ -4,6 +4,20 @@ const Hapi = require("@hapi/hapi");
 const Path = require("path");
 const superagent = require("superagent");
 
+
+const getAllProperties = async function () {
+
+    const url = "https://api.ownerreservations.com/v1/listings/summary";
+    const response = await superagent
+      .get(url)
+      .set("User-Agent", process.env.owner_rez_user_agent)
+      .auth(process.env.owner_rez_username, process.env.owner_rez_token, {
+        type: "auto",
+      });
+  
+    return response.body;
+};
+
 const init = async () => {
   const server = Hapi.server({
     port: 3000,
@@ -24,19 +38,11 @@ const init = async () => {
     method: "GET",
     path: "/data",
     handler: async (request, h) => {
-      const url = "https://secure.ownerreservations.com/api/properties/lookup";
-      const response = await superagent
-        .get(url)
-        .set("User-Agent", process.env.owner_rez_user_agent)
-        .auth(process.env.owner_rez_username, process.env.owner_rez_token, {
-          type: "auto",
-        });
-      const text = await response.body;
-      console.log(text);
+      const propertyDetails = await getAllProperties();
 
       const result = {
         mapkey: process.env.mapkey,
-        id: 0,
+        details: propertyDetails
       };
 
       return result;

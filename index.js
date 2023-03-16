@@ -25,7 +25,8 @@ const init = async () => {
     path: "/data",
     handler: async (request, h) => {
       const url = "https://secure.ownerreservations.com/api/properties/lookup";
-      const response = await superagent.get("google.com");
+      const response = await superagent.get("google.com")
+        .set('User-Agent', process.env.owner_rez_user_agent);
       const text = await response.body;
       console.log(text);
 
@@ -34,7 +35,7 @@ const init = async () => {
         id: 0
       };
       
-      return reply(result);
+      return result;
     },
   });
 

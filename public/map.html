@@ -41,7 +41,10 @@
           return;
         }
         
-        mapboxgl.accessToken = await response.text();
+        const data = await response.json();
+        console.log(data);
+        
+        mapboxgl.accessToken = data.mapkey;
         const map = new mapboxgl.Map({
           container: "map", // container ID
           // Choose from Mapbox's core styles, or make your own style with Mapbox Studio

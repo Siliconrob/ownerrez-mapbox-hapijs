@@ -29,7 +29,12 @@ const init = async () => {
       const text = await response.body;
       console.log(text);
 
-      return process.env.mapkey;
+      const result = {
+        mapkey: process.env.mapkey,
+        id: 0
+      };
+      
+      return reply(result);
     },
   });
 

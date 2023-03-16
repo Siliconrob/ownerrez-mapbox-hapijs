@@ -1,27 +1,16 @@
 {
-  "name": "Maps built with hapijs",
-  "version": "0.1.0",
-  "description": "Node app built with hapijs",
-  "main": "index.js",
+  "name": "MapBox-Hapijs",
+  "version": "0.0.1",
   "scripts": {
     "start": "node index.js"
   },
+  "engines": {
+    "node": "^16.x"
+  },
   "dependencies": {
     "@hapi/hapi": "^21.3.0",
-    "@hapi/hoek": "^11.0.2",
     "@hapi/inert": "^7.1.0",
-    "@hapi/shot": "^6.0.1",
+    "@hapi/joi": "^17.1.1",
     "superagent": "^8.0.9"
-  },
-  "engines": {
-    "node": "16.x"
-  },
-  "repository": {
-    "url": "https://glitch.com/edit/#!/glitch-hello-node"
-  },
-  "license": "MIT",
-  "keywords": [
-    "node",
-    "glitch"
-  ]
+  }
 }

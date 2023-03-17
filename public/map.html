@@ -70,15 +70,12 @@
         });
 
         map.on("load", () => {
-          for (let step = 0; step < 5; step++) {
-            for (const [index, coordinate] of markersAdded.entries()) {
-              setTimeout(() => {
-                const position = coordinate.getLngLat();
-                map.flyTo({ center: [position.lng, position.lat], zoom: 18 });
-              }, 15000 * index);
-            }            
+          for (const [index, coordinate] of markersAdded.entries()) {
+            setTimeout(() => {
+              const position = coordinate.getLngLat();
+              map.flyTo({ center: [position.lng, position.lat], zoom: 18 });
+            }, 15000 * index);
           }
-
         });
       })();
     </script>

@@ -1,10 +1,14 @@
-# Hello Node!
+# Hello and welcome to using Hapijs with the OwnerRez API!
 
-This project includes a Node.js server script and a web page that connects to it. The front-end page presents a form the visitor can use to submit a color name, sending the submitted value to the back-end API running on the server. The server returns info to the page that allows it to update the display with the chosen color. 🎨
+This project includes a Node.js server script
 
-[Node.js](https://nodejs.org/en/about/) is a popular runtime that lets you run server-side JavaScript. This project uses the [Fastify](https://www.fastify.io/) framework and explores basic templating with [Handlebars](https://handlebarsjs.com/).
+- Make sure to set all your [.env](https://support.glitch.com/t/how-do-i-set-environment-variables/3921) variables, this example uses [personal tokens](https://www.ownerreservations.com/support/articles/api-overview)
+- [Node.js](https://nodejs.org/en/about/) is a popular runtime that lets you run server-side JavaScript.
+- You will need to generate a free MapBox gljs API key [MapBox](https://docs.mapbox.com/mapbox-gl-js/guides/install/).
+- This project uses the [Hapijs](https://hapi.dev/) framework (I hope it makes you as happy as it does for me to use 😁) and explores basic routes on the [OwnerRez API](https://api.ownerreservations.com/help/v1).
+- **Do not use this in production**
 
-_Last updated: 11 Jan 2023_
+_Last updated: 16 Apr 2023_
 
 ## Prerequisites
 
@@ -14,25 +18,24 @@ You'll get best use out of this project if you're familiar with basic JavaScript
 
 ← `README.md`: That’s this file, where you can tell people what your cool website does and how you built it.
 
+← `public/map.html`: Holds the display map rendering.
+
 ← `public/style.css`: The styling rules for the pages in your site.
 
-← `server.js`: The **Node.js** server script for your new site. The JavaScript defines the endpoints in the site back-end, one to return the homepage and one to update with the submitted color. Each one sends data to a Handlebars template which builds these parameter values into the web page the visitor sees.
+← `index.js`: The **Node.js** server script for your new site. The JavaScript defines the endpoints in the site back-end, one to return the homepage and one to update with the submitted color. Each one sends data to a Handlebars template which builds these parameter values into the web page the visitor sees.
 
 ← `package.json`: The NPM packages for your project's dependencies.
 
-← `src/`: This folder holds the site template along with some basic data files.
+← `routes/`: This folder holds all the predefined Swagger entry points for hapijs to communicate with the OwnerRez API.
 
-← `src/pages/index.hbs`: This is the main page template for your site. The template receives parameters from the server script, which it includes in the page HTML. The page sends the user submitted color value in the body of a request, or as a query parameter to choose a random color.
+← `src/`: This folder holds general server side helper files for working with hapijs.
 
-← `src/colors.json`: A collection of CSS color names. We use this in the server script to pick a random color, and to match searches against color names.
-
-← `src/seo.json`: When you're ready to share your new site or add a custom domain, change SEO/meta settings in here.
 
 ## Try this next 🏗️
 
 Take a look in `TODO.md` for next steps you can try out in your new site!
 
-___Want a minimal version of this project to build your own Node.js app? Check out [Blank Node](https://glitch.com/edit/#!/remix/glitch-blank-node)!___
+**_Want a minimal version of this project to build your own Node.js app? Check out [Blank Node](https://glitch.com/edit/#!/remix/glitch-blank-node)!_**
 
 ![Glitch](https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2FLogo_Color.svg?v=1602781328576)
 

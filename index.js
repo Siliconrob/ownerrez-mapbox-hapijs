@@ -2,21 +2,10 @@
 
 const Hapi = require("@hapi/hapi");
 const Path = require("path");
-const superagent = require("superagent");
-
-
-const getAllProperties = async function () {
-
-    const url = "https://api.ownerreservations.com/v1/listings/summary";
-    const response = await superagent
-      .get(url)
-      .set("User-Agent", process.env.owner_rez_user_agent)
-      .auth(process.env.owner_rez_username, process.env.owner_rez_token, {
-        type: "auto",
-      });
-  
-    return response.body;
-};
+const Inert = require("@hapi/inert");
+const Vision = require("@hapi/vision");
+const HapiSwagger = require("hapi-swagger");
+const HauteCouture = require("@hapipal/haute-couture");
 
 const init = async () => {
   const server = Hapi.server({
@@ -24,7 +13,24 @@ const init = async () => {
     host: "0.0.0.0",
   });
 
-  await server.register(require("@hapi/inert"));
+  const swaggerOptions = {
+    info: {
+      title: "Unofficial Test API Documentation",
+      version: "0.1",
+    },
+  };
+
+  await server.register([
+    Inert,
+    Vision,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions,
+    },
+  ]);
+  await server.start();
+  console.log("I exist to serve %s", server.info.uri);
+  await HauteCouture.compose(server);
 
   server.route({
     method: "GET",
@@ -33,24 +39,6 @@ const init = async () => {
       return h.file("public/map.html");
     },
   });
-
-  server.route({
-    method: "GET",
-    path: "/data",
-    handler: async (request, h) => {
-      const propertyDetails = await getAllProperties();
-
-      const result = {
-        mapkey: process.env.mapkey,
-        details: propertyDetails
-      };
-
-      return result;
-    },
-  });
-
-  await server.start();
-  console.log("I exist to serve %s", server.info.uri);
 };
 
 process.on("unhandledRejection", (err) => {

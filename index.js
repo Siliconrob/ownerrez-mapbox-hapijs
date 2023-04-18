@@ -9,13 +9,13 @@ const HauteCouture = require("@hapipal/haute-couture");
 
 const init = async () => {
   const server = Hapi.server({
-    port: 3000,
+    port: process.env.PORT,
     host: "0.0.0.0",
   });
 
   const swaggerOptions = {
     info: {
-      title: "Unofficial Test API Documentation",
+      title: "Unofficial Test Map Documentation",
       version: "0.1",
     },
   };
@@ -28,8 +28,6 @@ const init = async () => {
       options: swaggerOptions,
     },
   ]);
-  await server.start();
-  console.log("I exist to serve %s", server.info.uri);
   await HauteCouture.compose(server);
 
   server.route({
@@ -39,6 +37,9 @@ const init = async () => {
       return h.file("public/map.html");
     },
   });
+  
+  await server.start();
+  console.log("I exist to serve %s", server.info.uri);  
 };
 
 process.on("unhandledRejection", (err) => {

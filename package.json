@@ -17,7 +17,17 @@
     "joi": "^17.9.2",
     "hapi-swagger": "^16.0.1",
     "@hapi/vision": "^7.0.1",
-    "@hapipal/haute-couture": "^4.3.1"
+    "@hapipal/haute-couture": "^4.3.1",
+    "@hapi/subtext": "^7.1.0",
+    "@hapi/bourne": "^3.0.0",
+    "@hapi/content": "^6.0.0",
+    "@hapi/file": "^3.0.0",
+    "@hapi/hoek": "^11.0.2",
+    "@hapi/pez": "^5.1.0",
+    "@hapi/wreck": "^18.0.1",
+    "@hapi/b64": "^6.0.1",
+    "@hapi/nigel": "^5.0.1",
+    "@hapi/vise": "^5.0.1"
   },
   "license": "MIT",
   "keywords": [

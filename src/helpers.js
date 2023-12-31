@@ -21,6 +21,9 @@ function validateEnvVariable(envName) {
 
 module.exports = {
   BaseUrl: "https://api.ownerreservations.com/v1",
+  GeocoderUrl: {
+    HERE: "https://geocode.search.hereapi.com/v1/geocode"
+  },
   GeneralErrorHandlerFn: async function (runFn) {
     [
       "mapkey",
@@ -44,5 +47,10 @@ module.exports = {
       .auth(process.env.owner_rez_username, process.env.owner_rez_token, {
         type: "auto",
       });
+  },
+  GetNoAuth: async function (url) {
+    return await superagent
+      .get(url)
+      .set("User-Agent", process.env.owner_rez_user_agent)
   },
 };

@@ -18,6 +18,7 @@
       href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
     <style>
       body {
@@ -146,6 +147,7 @@
     <script>
       let map = null;
       let searchMarker = null;
+      let markersAdded = [];
 
       async function findLocation() {
         const addressToSearch = document.getElementById("searchAddress").value;
@@ -165,13 +167,31 @@
             search.details.position.lng,
             search.details.position.lat,
           ];
+
+          const distanceTos = [];
+          const distanceUnit = "miles";
+          for (const [index, coordinate] of markersAdded.entries()) {
+            const propertyLatLng = coordinate.getLngLat();
+            const options = { units: distanceUnit };
+            const distance = turf.distance(
+              turf.point([
+                search.details.position.lng,
+                search.details.position.lat,
+              ]),
+              turf.point([propertyLatLng.lng, propertyLatLng.lat])
+            );
+            distanceTos.push(
+              `<li>${distance.toFixed(2)} ${distanceUnit} to <b>${markersAdded[index].name}</b></li>`
+            );
+          }
+
           searchMarker = new mapboxgl.Marker({ color: getRandomColor() })
             .setLngLat(position)
             .setPopup(
               new mapboxgl.Popup({ offset: 25 }).setHTML(
                 `<h3>${search.details.title}</h3><p>${JSON.stringify(
                   search.details.title
-                )}</p>`
+                )}<ul>${distanceTos.join("")}</ul></p>`
               )
             )
             .addTo(map);
@@ -181,12 +201,14 @@
       document.getElementById("searchButton").addEventListener("click", () => {
         findLocation();
       });
-      document.getElementById("searchAddress").addEventListener("keyup", ({key}) => {
-        if (event.key === "Enter") {
-          findLocation();
-        }        
-      });
-      
+      document
+        .getElementById("searchAddress")
+        .addEventListener("keyup", ({ key }) => {
+          if (event.key === "Enter") {
+            findLocation();
+          }
+        });
+
       function getRandomColor() {
         const letters = "0123456789ABCDEF";
         let color = "#";
@@ -217,12 +239,30 @@
           zoom: 0, // starting zoom
         });
 
-        const markersAdded = [];
-
+        console.log(`${JSON.stringify(data.details)}`);
         data.details.forEach((z) => {
+          let imgTag = "";
+          const defaultUrls = { thumb: null };
+          const imageUrls = Object.assign({
+            ...defaultUrls,
+            ...z.thumbnailUrl,
+          });
+
+          if (imageUrls.thumb !== null) {
+            imgTag = `<img src="${imageUrls.thumb}" /><br/>`;
+          }
+
+          const rate = z.nightlyRateMin || "No rate set";
+
           const newMarker = new mapboxgl.Marker({ color: getRandomColor() })
             .setLngLat([z.longitude, z.latitude])
+            .setPopup(
+              new mapboxgl.Popup({ offset: 25 }).setHTML(
+                `<h3>${z.name}</h3><p>${imgTag}${rate} ${z.currencyCode} per night</p>`
+              )
+            )
             .addTo(map);
+          newMarker.name = `${z.name}`;
           markersAdded.push(newMarker);
         });
 

@@ -147,6 +147,7 @@
       let map = null;
       let searchMarker = null;
       let markersAdded = [];
+      let skipTour = false;
 
       async function findLocation() {
         const addressToSearch = document.getElementById("searchAddress").value;
@@ -195,6 +196,7 @@
             )
             .addTo(map);
           map.flyTo({ center: position, zoom: 18 });
+          skipTour = true;
         }
       }
       document.getElementById("searchButton").addEventListener("click", () => {
@@ -269,6 +271,9 @@
           for (const [index, coordinate] of markersAdded.entries()) {
             setTimeout(() => {
               const position = coordinate.getLngLat();
+              if (skipTour) {
+                return;
+              }
               map.flyTo({ center: [position.lng, position.lat], zoom: 18 });
             }, 15000 * index);
           }

@@ -2,6 +2,15 @@ const Joi = require("joi");
 const appHelper = require("../src/helpers");
 const dateHelper = require("../src/datetools");
 
+
+async function getPropertyDetails(propertyId) {
+  return await appHelper.GeneralErrorHandlerFn(async () => {
+    const response = await appHelper.Get(`${appHelper.BaseUrl}/properties/${propertyId}`);
+    return response.body;      
+  });
+};
+
+
 module.exports = [
   {
     method: "GET",
@@ -77,11 +86,22 @@ module.exports = [
         if (Object.entries(queryParams).length > 0) {
           queryString = `?${new URLSearchParams(queryParams).toString()}`;
         }
-        console.log(new URLSearchParams(queryParams).toString());
-        const response = await appHelper.Get(
-          `${appHelper.BaseUrl}/propertysearch${queryString}`
-        );
-        return response.body;
+        const response = await appHelper.Get(`${appHelper.BaseUrl}/propertysearch${queryString}`);        
+        const matchedProperties = await response.body;
+        
+        const searchResults = [];
+        
+        for (let z of matchedProperties.items || []) {
+          if (z.hasOwnProperty("id")) {
+            const propertyDetails = await getPropertyDetails(z.id);
+            searchResults.push(propertyDetails);
+          }
+        }        
+                
+        return {
+          "count": searchResults.length,
+          "items": searchResults
+        };
       });
     },
   },

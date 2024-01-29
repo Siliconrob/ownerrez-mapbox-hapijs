@@ -125,6 +125,56 @@
       let searchMarker = null;
       let markersAdded = [];
       let skipTour = false;
+      
+      async function filterBy() {
+        
+        const filterParams = {
+          bedrooms: parseInt(document.getElementById("bedrooms").value),
+          bathrooms: parseInt(document.getElementById("bathrooms").value),
+        };        
+        filterParams.bedrooms = filterParams.bedrooms == 0 ? null : filterParams.bedrooms;
+        filterParams.bathrooms = filterParams.bathrooms == 0 ? null : filterParams.bathrooms;                        
+        const fixedFilters = Object.entries(filterParams).reduce((a, [k, v]) => (v == null ? a : (a[k] = v, a)), {})        
+        const searchParams = new URLSearchParams(fixedFilters).toString();        
+        let response = await fetch(`${window.location.href}propertysearch?${searchParams}`);        
+        const properties = await response.json();
+        if (map !== null) {
+          if (searchMarker !== null) {
+          searchMarker.remove();
+          }
+
+          markersAdded.forEach(z => z.remove());  
+          properties.items.forEach(z => {
+            let imgTag = "";
+            const defaultUrls = { thumb: null };
+            const imageUrls = Object.assign({
+              ...defaultUrls,
+              ...z.thumbnailUrl,
+            });
+            if (imageUrls.thumb !== null) {
+              imgTag = `<img src="${imageUrls.thumb}" /><br/>`;
+            }
+            const rate = z.nightlyRateMin || "No rate set";
+            const newMarker = new mapboxgl.Marker({ color: getRandomColor() })
+            .setLngLat([z.longitude, z.latitude])
+            .setPopup(
+              new mapboxgl.Popup({ offset: 25 }).setHTML(
+              `<h3>${z.name}</h3><p>${imgTag}${rate} ${z.currencyCode} per night</p>`
+              )
+            ).addTo(map);
+            
+            newMarker.name = `${z.name}`;
+            markersAdded.push(newMarker);	
+          });
+          
+          let bounds = new mapboxgl.LngLatBounds();
+          markersAdded.forEach(z => {
+              bounds.extend(z.getLngLat());
+          });
+          map.fitBounds(bounds);                                   
+        }        
+      }
+      
 
       async function findLocation() {
         const addressToSearch = document.getElementById("searchAddress").value;
@@ -140,6 +190,7 @@
           if (searchMarker !== null) {
             searchMarker.remove();
           }
+          skipTour = true;
           const position = [
             search.details.position.lng,
             search.details.position.lat,
@@ -176,9 +227,14 @@
           skipTour = true;
         }
       }
-      document.getElementById("searchButton").addEventListener("click", () => {
-        findLocation();
+      document.getElementById("bedrooms").addEventListener("change", () => {
+        filterBy();
       });
+      
+      document.getElementById("bathrooms").addEventListener("change", () => {
+        filterBy();
+      });
+      
       document
         .getElementById("searchAddress")
         .addEventListener("keyup", ({ key }) => {

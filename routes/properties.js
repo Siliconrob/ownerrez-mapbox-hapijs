@@ -37,7 +37,6 @@ module.exports = [
       return await appHelper.GeneralErrorHandlerFn(async () => {
         const response = await appHelper.Get(`${appHelper.BaseUrl}/properties/${request.params.id}`);
         return {
-          mapkey: process.env.mapkey,
           details: response.body
         };
       });

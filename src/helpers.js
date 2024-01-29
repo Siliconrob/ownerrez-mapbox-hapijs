@@ -20,7 +20,9 @@ function validateEnvVariable(envName) {
 }
 
 module.exports = {
-  BaseUrl: "https://api.ownerreservations.com/v1",
+  RemoveNullUndefined: obj => Object.entries(obj).reduce((a, [k, v]) => (v == null ? a : (a[k] = v, a)), {}),
+  LegacyBaseUrl: "https://api.ownerreservations.com/v1",
+  BaseUrl: "https://api.ownerreservations.com/v2",
   GeocoderUrl: {
     HERE: "https://geocode.search.hereapi.com/v1/geocode"
   },

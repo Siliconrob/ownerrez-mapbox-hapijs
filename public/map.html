@@ -82,6 +82,11 @@
         text-align: center;
         font-family: "Open Sans", sans-serif;
       }
+      
+      .slider-align {
+        vertical-align: middle;
+      }
+      
     </style>
   </head>
   <body>    
@@ -95,26 +100,14 @@
         <div class="left-side-item">
           <br/>
           <h2>Filters</h2>
-          <label class="left-panel-label" for="bedrooms">Bedrooms</label>
-          <select id="bedrooms">
-            <option value="0">All</option>
-            <option value="1">&gt;= 1</option>
-            <option value="2">&gt;= 2</option>
-            <option value="3">&gt;= 3</option>
-            <option value="4">&gt;= 4</option>
-            <option value="5">&gt;= 5</option>
-          </select>
+          <label for="bedrooms" class="left-side-item">Bedrooms</label>
+          <input class="slider-align" type="range" id="bedrooms" name="volume" min="0" max="10" step="1" value="0" />
+          <output name="range1value" for="bedrooms" >1</output>
         </div>
         <div class="left-side-item">
-          <label class="left-panel-label" for="bathrooms">Bathrooms</label>
-          <select id="bathrooms">
-            <option value="0">All</option>
-            <option value="1">&gt;= 1</option>
-            <option value="2">&gt;= 2</option>
-            <option value="3">&gt;= 3</option>
-            <option value="4">&gt;= 4</option>
-            <option value="5">&gt;= 5</option>
-          </select>        
+          <label for="bathrooms" class="left-side-item">Bathrooms</label>
+          <input class="slider-align" type="range" id="bathrooms" name="volume" min="0" max="10" step="1" value="0" />
+          <output name="range1value" for="bathrooms" >1</output>       
         </div>        
       </div>
       <div id="map"></div>
